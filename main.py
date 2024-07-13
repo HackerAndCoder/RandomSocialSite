@@ -5,7 +5,7 @@ app = Flask(__name__)
 database.restore_from_disk()
 
 def get_post(id):
-    return "<p>test post</p>"
+    return get_plaintext_file("template.html").replace('{message}', "test").replace("{username}", "also test")
 
 def get_plaintext_file(path):
     with open(os.path.join('site', path)) as f:

@@ -1,0 +1,83 @@
+.outlined {
+	border: 2px solid rgb(143, 143, 143);
+	border-radius: 20px;
+	min-height: 75px;
+	min-width: 100px;
+	width: min-content;
+	margin: 50px;
+	padding: 100px;
+	text-align: center;
+}
+.centerbutton{
+	text-align: center;
+	border-width: 1px;
+	border-radius: 5px;
+	background-color: rgb(165, 165, 165);
+}
+
+body {
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+
+#error {
+	color: red;
+}
+
+#header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	min-height: 100px;
+	width: 100%;
+	border: 2px solid lightgray;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	display: block;
+	z-index: 9999;
+	background-color: white;
+}
+
+#spacer {
+	width: 200%;
+	display: block;
+	min-height: 100px;
+}
+
+#content {
+	display: block;
+}
+
+.post {
+	display: block;
+	background-color: rgb(247, 247, 247);
+	border: 3px solid rgb(202, 202, 202);
+	min-height: 100px;
+	padding: 20px;
+	padding-top: 5px;
+	padding-bottom: 7px;
+	min-width: 300px;
+	border-radius: 15px;
+	/*
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+	*/
+	max-width: 600px;
+}
+
+.profpic {
+	max-width: 20px;
+	padding-right: 5px;
+	display: inline;
+}
+
+.messagecontents, .profname{
+	font-family: 'Courier New', Courier, monospace;
+	
+}
+
+.headerlinks {
+	float: right;
+}

@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 database.restore_from_disk()
 
-def get_post(id):
+def get_post_html(id):
     p = post_handler.get_post(id)
     return get_plaintext_file("template.html").replace('{message}', p["message"]).replace("{username}", p["username"])
 
@@ -29,7 +29,32 @@ def home_return():
 
 @app.route('/', methods = ["POST"])
 def return_content():
-    return json.dumps({"test":"good","content_length":100,"content":[get_post(random.randrange(0, post_handler.get_post_id_number())) for _ in range(100)]})
+    data = request.get_json()
+    if data["request"] == "content":
+
+        post_ids = post_handler.get_recommended_posts(data["username"])
+
+        return_posts = []
+
+        for i in post_ids:
+            return_posts.append(post_handler.format_post(post_handler.get_post(i)))
+
+
+        send = {
+                "test":"good",
+                "content_length": len(return_posts),
+                "content": return_posts
+            }
+        
+        return json.dumps(send)
+
+        #return json.dumps({"test":"good","content_length":100,"content":[get_post_html(random.randrange(0, post_handler.get_post_id_number())) for _ in range(100)]})
+
+
+    elif data["request"] == "post":
+        print(f"New post from {data['username']}: {data['message']}")
+        post_handler.new_post(data["username"], data["message"])
+        return ""
 
 @app.route('/handle_post', methods = ['POST'])
 def handle_signin():
@@ -48,6 +73,9 @@ def handle_signin():
 
     if not database.does_user_exist(username):
         database.set_user_and_password(username, password)
+
+        f = open(os.path.join("users", str(username)))
+        f.close()
 
     database.save_to_disk()
     return '{"completed":"Redirecting...", "go":true,"hashed":"'+str(password)+'"}'

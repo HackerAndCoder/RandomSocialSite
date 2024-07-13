@@ -18,6 +18,9 @@ function postRequest(json_data) {
         {
             if (xhr.readyState == 4 && xhr.status == 201 || xhr.status == 200) 
             {
+				if (JSON.parse(json_data).request == "post") {
+					return;
+				}
 				console.log(xhr.responseText);
 				content = xhr.responseText;
 				addContentToPage(JSON.parse(content));
@@ -34,10 +37,21 @@ function getMoreContent() {
 	postRequest(JSON.stringify(
 		{
 			"username": getCookie("username"),
-			"password": getCookie("password"),
 			"request":"content"
 		}
 	))
+}
+
+function postMessage(message) {
+	postRequest(
+		JSON.stringify(
+			{
+				"username": getCookie("username"),
+				"request": "post",
+				"message": message
+			}
+		)
+	)
 }
 
 function getCookie(cname) {
@@ -91,3 +105,8 @@ function signout() {
 }
 
 document.getElementById("username").innerHTML = getCookie("username")
+
+function mp() {
+	let message = prompt("What do you want to post?", "");
+	postMessage(message);
+}

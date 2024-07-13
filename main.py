@@ -2,8 +2,6 @@ from flask import Flask, Response, request, redirect, json
 import os, json, database
 app = Flask(__name__)
 
-
-
 database.restore_from_disk()
 
 def get_post(id):

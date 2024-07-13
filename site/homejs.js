@@ -89,3 +89,5 @@ function signout() {
 	setCookie("password", "", -1);
 	window.location.reload();
 }
+
+document.getElementById("username").innerHTML = getCookie("username")

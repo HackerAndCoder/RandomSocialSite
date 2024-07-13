@@ -57,7 +57,8 @@ def hello_world(a):
         print(f'bin path {a} extention {get_extention(a)}')
         return get_binary_file(a)
     try:
-        return Response(get_plaintext_file(a), mimetype=f'text/{get_extention(a) if get_extention(a) != "js" else "javascript"}')
+        return Response(get_plaintext_file(a), 
+                        mimetype=f'text/{get_extention(a) if get_extention(a) != "js" else "javascript"}')
     except:
         return ""
 

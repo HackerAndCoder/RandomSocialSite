@@ -1,11 +1,12 @@
 from flask import Flask, Response, request, redirect, json
-import os, json, database
+import os, json, database, post_handler, random
 app = Flask(__name__)
 
 database.restore_from_disk()
 
 def get_post(id):
-    return get_plaintext_file("template.html").replace('{message}', "test").replace("{username}", "also test")
+    p = post_handler.get_post(id)
+    return get_plaintext_file("template.html").replace('{message}', p["message"]).replace("{username}", p["username"])
 
 def get_plaintext_file(path):
     with open(os.path.join('site', path)) as f:
@@ -28,7 +29,7 @@ def home_return():
 
 @app.route('/', methods = ["POST"])
 def return_content():
-    return json.dumps({"test":"good","content_length":100,"content":[get_post(0) for i in range(100)]})
+    return json.dumps({"test":"good","content_length":100,"content":[get_post(random.randrange(0, post_handler.get_post_id_number())) for _ in range(100)]})
 
 @app.route('/handle_post', methods = ['POST'])
 def handle_signin():

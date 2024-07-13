@@ -73,4 +73,5 @@ body {
 
 .headerlinks {
 	float: right;
+	max-height: 100px;
 }

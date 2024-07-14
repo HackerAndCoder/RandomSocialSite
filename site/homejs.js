@@ -183,5 +183,5 @@ function unlike(button, id) {
 }
 
 function accountsettings() {
-	window.location.href = window.location.origin + "/account.html";
+	//window.location.href = window.location.origin + "/account.html";
 }

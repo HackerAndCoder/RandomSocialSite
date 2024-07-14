@@ -113,8 +113,8 @@ body {
 
 .post {
 	display: block;
-	background-color: rgb(247, 247, 247);
-	border: 3px solid rgb(202, 202, 202);
+	background-color: rgb(46, 46, 46);
+	border: 3px solid rgb(70, 70, 70);
 	min-height: 100px;
 	padding: 20px;
 	padding-top: 5px;

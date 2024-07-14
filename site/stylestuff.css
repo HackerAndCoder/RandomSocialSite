@@ -75,3 +75,7 @@ body {
 	float: right;
 	max-height: 100px;
 }
+
+.action {
+	margin-right: 10px;
+}

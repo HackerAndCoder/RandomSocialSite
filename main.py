@@ -37,7 +37,7 @@ def return_content():
         return_posts = []
 
         for i in post_ids:
-            return_posts.append(post_handler.format_post(post_handler.get_post(i)))
+            return_posts.append(post_handler.get_formatted_post(data["username"], i))
 
 
         send = {
@@ -54,6 +54,16 @@ def return_content():
     elif data["request"] == "post":
         print(f"New post from {data['username']}: {data['message']}")
         post_handler.new_post(data["username"], data["message"])
+        return ""
+    
+    elif data["request"] == "like":
+        print(f"User {data['username']} liked post with id {data['id']}")
+        post_handler.like_post(data["username"], int(data["id"]))
+        return ""
+    
+    elif data["request"] == "unlike":
+        print(f"User {data['username']} unliked post with id {data['id']}")
+        post_handler.unlike_post(data["username"], int(data["id"]))
         return ""
 
 @app.route('/handle_post', methods = ['POST'])

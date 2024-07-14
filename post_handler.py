@@ -40,7 +40,7 @@ def is_post_number_used(num):
 def new_post(username, post_text):
 	increment_post_id_number()
 	with open(os.path.join("posts", str(get_post_id_number())), 'w') as f:
-		c = {"username": username, "message": post_text, "tags": get_post_tags(post_text)}
+		c = {"username": username, "message": post_text, "tags": get_post_tags(post_text), "likes": 0}
 		#f.write(yaml.dump(c))
 		f.write(json.dumps(c))	
 	
@@ -49,7 +49,7 @@ def new_post(username, post_text):
 			c = json.loads(f.read())
 		except json.decoder.JSONDecodeError as e: # file is empty
 			print(e)
-			c = {"posts": []}
+			c = {"posts": [], "liked": []}
 			print(f"User: {username} does not have any posts, posting")
 		#c = yaml.load_all(f.read(), yaml.FullLoader)
 		c["posts"].append(get_post_id_number())
@@ -87,8 +87,12 @@ def get_post(id):
 def get_recommended_posts(username):
 	return [random.randrange(0, get_post_id_number()+1) for _ in range(25)]
 
-def format_post(post):
-	return get_plaintext_file("template.html").replace('{message}', post["message"]).replace("{username}", post["username"])
+def get_formatted_post(username, post_id):
+	post = get_post(post_id)
+	return get_plaintext_file("template.html").replace('{message}', post["message"]
+															).replace("{username}", post["username"]
+					   										).replace('{id}', str(post_id)
+						   									).replace('{color_if_liked}', 'style="border-color: green;"' if has_user_liked_post(username, post_id) else "")
 
 def get_tag_words(tag):
 	if tag.lower() in keywords.keys():
@@ -107,3 +111,40 @@ def get_post_tags(post_content):
 			tags.add(tag)
     
 	return list(tags)
+
+def like_post(username, post_id):
+	post_id = int(post_id)
+	with open(os.path.join("users", username), 'r+') as f:
+		info = json.loads(f.read())
+		if not post_id in info["liked"]:
+			info["liked"].append(post_id)
+			f.seek(0)
+			f.write(json.dumps(info))
+	
+	with open(os.path.join("posts", str(post_id)), "r+") as f:
+		data = json.loads(f.read())
+		data["likes"] += 1
+		f.seek(0)
+		f.write(json.dumps(data))
+
+def unlike_post(username, post_id):
+	post_id = int(post_id)
+	with open(os.path.join("users", username), 'r+') as f:
+		info = json.loads(f.read())
+		if not post_id in info["liked"]:
+			info["liked"].remove(post_id)
+			f.seek(0)
+			f.write(json.dumps(info))
+	
+	with open(os.path.join("posts", str(post_id)), "r+") as f:
+		data = json.loads(f.read())
+		data["likes"] -= 1
+		f.seek(0)
+		f.write(json.dumps(data))
+
+def has_user_liked_post(username, post_id):
+	with open(os.path.join("users", username)) as f:
+		info = json.loads(f.read())
+		if int(post_id) in info["liked"]:
+			return True
+		return False

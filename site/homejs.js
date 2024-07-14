@@ -110,3 +110,31 @@ function mp() {
 	let message = prompt("What do you want to post?", "");
 	postMessage(message);
 }
+
+function like(button, id) {
+	if (button.innerHTML == "Unlike") {
+		unlike(button, id);
+		return;
+	}
+	button.parentNode.parentNode.parentNode.style.borderColor = "green";
+	button.innerHTML = "Unlike";
+	postRequest(JSON.stringify(
+		{
+			"username": getCookie("username"),
+			"request": "like",
+			"id": id
+		}
+	))
+}
+
+function unlike(button, id) {
+	button.parentNode.parentNode.parentNode.style.borderColor = "rgb(202, 202, 202)";
+	button.innerHTML = "Like";
+	postRequest(JSON.stringify(
+		{
+			"username": getCookie("username"),
+			"request": "unlike",
+			"id": id
+		}
+	))
+}

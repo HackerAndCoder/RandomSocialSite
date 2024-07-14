@@ -171,7 +171,7 @@ function like(button, id) {
 }
 
 function unlike(button, id) {
-	button.parentNode.parentNode.parentNode.style.borderColor = "rgb(202, 202, 202)";
+	button.parentNode.parentNode.parentNode.style.border = "3px solid rgb(70, 70, 70)";
 	button.innerHTML = "Like";
 	postRequest(JSON.stringify(
 		{

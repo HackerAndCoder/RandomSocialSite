@@ -137,7 +137,7 @@ body {
 
 .messagecontents, .profname{
 	font-family: 'Courier New', Courier, monospace;
-	
+	color: white;
 }
 
 .headerlinks {
@@ -161,8 +161,10 @@ body {
 	min-width: 50px;
 	min-height: 15px;
 }
+
 .like_num {
     float: right;
+	color: white;
 }
 
 .linkbutton {

@@ -1,6 +1,4 @@
 .outlined {
-	border: 2px solid black;
-	border-radius: 20px;
 	min-height: 100px;
 	min-width: 100px;
 	width: min-content;
@@ -8,14 +6,82 @@
 	padding: 100px
 }
 
+.frosted-glass::before {
+	content: 'body';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: inherit;  z-index: -1;
+	filter: blur(10px);
+  }
+
+.frosted-glass {
+	
+	position: relative;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	  
+	border-radius: 5px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 500px; /* Increased from 400px */
+  padding: 30px; border-radius: 10px; /* Increased border-radius for a softer look */
+	min-height: 350px; /* Increased from 300px */
+  }
+  .frosted-glass2 {
+	margin: 5px;  font-size: 18px;
+	padding: 12px;
+	margin: 10px 0;
+	width: 75%;
+	box-sizing: border-box;
+  
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border: 0cap;
+	border-radius: 5px;
+  }
+  .frosted-glass3 {
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border: 0cap;
+	border-radius: 5px;
+	position: absolute;
+	font-size: 18px;
+	padding: 12px 24px;
+	margin-top: 20px;
+	top: 80%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  }
+  .container {
+	display: grid;
+	place-items: center;
+	
+  }
+
+.background{
+	background-image: url("background.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+}
 body {
 	display: flex;
   	justify-content: center;
   	align-items: center;
+	background-color: rgb(29, 29, 29);
 }
 
 #error {
 	color: red;
+	justify-content: center;
 }
 
 #header {
@@ -24,12 +90,15 @@ body {
 	left: 0;
 	min-height: 100px;
 	width: 100%;
-	border: 2px solid lightgray;
+	border: 2px solid rgb(73, 73, 73);
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	display: block;
 	z-index: 9999;
-	background-color: white;
+	background-color: rgb(59, 59, 59);
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
 }
 
 #spacer {
@@ -77,7 +146,6 @@ body {
 	display: flex;
   	justify-content: space-between; /* Space between the items */
   	align-items: center;
-	border: 3px dashed lightgray;
 	border-radius: 10px;
 	margin-top: 20px;
 }
@@ -98,7 +166,12 @@ body {
 	min-width: 50px;
 	min-height: 15px;
 }
-
 .like_num {
-	float: right;
+    float: right;
+}
+
+.linkbutton {
+	text-decoration: none;
+	color: white;
+	font-family: 'Courier New', Courier, monospace;
 }

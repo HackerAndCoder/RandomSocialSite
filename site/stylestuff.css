@@ -98,3 +98,7 @@ body {
 	min-width: 50px;
 	min-height: 15px;
 }
+
+.like_num {
+	float: right;
+}

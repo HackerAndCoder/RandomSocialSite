@@ -85,7 +85,7 @@ function setCookie(cname, cvalue, exdays) {
   
 
 function addContentToPage(content) {
-	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button>{like_num} likes</div></div></div>"
+	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button><div class=\"like_num\">{like_num} likes</div></div></div></div>"
 	for (var i = 0; i < content.length; i++) {
 		let c = JSON.parse(content[i]);
 
@@ -142,8 +142,23 @@ function mp() {
 function like(button, id) {
 	if (button.innerHTML == "Unlike") {
 		unlike(button, id);
+
+		let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
+	
+		t[0] = Number(t[0]) - 1;
+
+		button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
+
 		return;
 	}
+
+	
+	let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
+	
+	t[0] = Number(t[0]) + 1;
+
+	button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
+
 	button.parentNode.parentNode.parentNode.style.borderColor = "green";
 	button.innerHTML = "Unlike";
 	postRequest(JSON.stringify(

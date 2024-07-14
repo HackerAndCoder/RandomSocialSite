@@ -1,4 +1,4 @@
-import yaml, os, json, random, re
+import yaml, os, json, random, re, time, datetime, math
 
 keywords = {
 		'technology': ['tech', 'technology', 'gadgets', 'AI', 'artificial intelligence', 'machine learning', 'ML', 'data science', 'robotics', 'innovation', 'software', 'hardware'],
@@ -40,21 +40,30 @@ def is_post_number_used(num):
 def new_post(username, post_text):
 	increment_post_id_number()
 	with open(os.path.join("posts", str(get_post_id_number())), 'w') as f:
-		c = {"username": username, "message": post_text, "tags": get_post_tags(post_text), "likes": 0}
+		c = {"username": username, 
+	   "message": post_text, 
+	   "tags": get_post_tags(post_text), 
+	   "likes": 0, 
+	   "days": math.floor(round(time.time()) / 86400)}
+		
 		#f.write(yaml.dump(c))
-		f.write(json.dumps(c))	
+		f.write(json.dumps(c))
+		f.truncate()
 	
 	with open(os.path.join("users", username), 'r+') as f:
 		try:
 			c = json.loads(f.read())
 		except json.decoder.JSONDecodeError as e: # file is empty
 			print(e)
-			c = {"posts": [], "liked": []}
+			c = {"posts": [], "liked": [], "sway": {}}
+			for i in keywords.keys():
+				c["sway"][i] = 0
 			print(f"User: {username} does not have any posts, posting")
 		#c = yaml.load_all(f.read(), yaml.FullLoader)
 		c["posts"].append(get_post_id_number())
 		f.seek(0)
 		f.write(json.dumps(c))
+		f.truncate()
 		
 
 	with open("post_list.data", "r+") as f:
@@ -66,6 +75,7 @@ def new_post(username, post_text):
 		c["posts"].append(get_post_id_number())
 		f.seek(0)
 		f.write(json.dumps(c))
+		f.truncate()
 
 def get_posts(username):
 	with open(os.path.join("users", username)) as f:
@@ -82,17 +92,68 @@ def get_post(id):
 			return json.loads(f.read())
 	except:
 		print(f'Error: no post: {id}')
-		return {"username": "null", "message": "null"}
+		return {"username": "null", "message": "null", "tags":[], "likes": 0}
 	
-def get_recommended_posts(username):
-	return [random.randrange(0, get_post_id_number()+1) for _ in range(25)]
+def get_recommended_posts(username, load_length = 100):
+
+
+	# THIS IS TEMPORARY CODE WHILE WE WAIT FOR NEW POSTS TO COME IN: DELETE ASAP WHEN DONE!!
+
+	'''
+	import temp_random_populator
+
+	for i in range(load_length):
+		for k in keywords.keys():
+			new_post("a", temp_random_populator.make_random_post(k))
+
+
+	'''
+
+	current_day = math.floor(round(time.time()) / 86400)
+
+	time_interest_reduction = 1 # interest reduced per day
+
+	population = [random.randint(1, get_post_id_number()) for _ in range(load_length)]
+	with open(os.path.join("users", username)) as f:
+		userinfo = json.loads(f.read())
+	
+	post_likeness = {}
+
+	user_sway = userinfo["sway"]
+	for post in population:
+		user_likeness = 0
+		for tag in get_post_tags(get_post(post)["message"]):
+			user_likeness += user_sway[tag]
+
+		user_likeness -= (current_day - get_post(post)["days"]) * time_interest_reduction
+		post_likeness[post] = user_likeness
+	
+	sorted_items = sorted(post_likeness.items(), key=lambda item: item[1])
+	sorted_items.reverse()
+	
+	return_stuff = []
+
+	for i in range(load_length // 10):
+		return_stuff.append(sorted_items[i][0])
+	
+	print(f'User {username} likes {get_post(return_stuff[0])["tags"]}')
+	
+	#return_stuff.append(sorted_items[-1][0]) # recommend a random offtopic post to keep the users interest open
+
+
+	#print(f'Username {username} has content: {return_stuff} from {sorted_items}')
+
+	return return_stuff
+
+	#return [random.randrange(0, get_post_id_number()+1) for _ in range(25)]
 
 def get_formatted_post(username, post_id):
 	post = get_post(post_id)
 	return get_plaintext_file("template.html").replace('{message}', post["message"]
 															).replace("{username}", post["username"]
 					   										).replace('{id}', str(post_id)
-						   									).replace('{color_if_liked}', 'style="border-color: green;"' if has_user_liked_post(username, post_id) else "")
+						   									).replace('{color_if_liked}', 'style="border-color: green;"' if has_user_liked_post(username, post_id) else ""
+															).replace('{user_liked}', "Unlike" if has_user_liked_post(username, post_id) else "Like")
 
 def get_tag_words(tag):
 	if tag.lower() in keywords.keys():
@@ -118,6 +179,11 @@ def like_post(username, post_id):
 		info = json.loads(f.read())
 		if not post_id in info["liked"]:
 			info["liked"].append(post_id)
+
+			post_tags = get_post(post_id)["tags"]
+			for i in post_tags:
+				info["sway"][i] += 1
+			
 			f.seek(0)
 			f.write(json.dumps(info))
 	
@@ -131,10 +197,17 @@ def unlike_post(username, post_id):
 	post_id = int(post_id)
 	with open(os.path.join("users", username), 'r+') as f:
 		info = json.loads(f.read())
-		if not post_id in info["liked"]:
+		if post_id in info["liked"]:
 			info["liked"].remove(post_id)
+
+			post_tags = get_post(post_id)["tags"]
+			for i in post_tags:
+				if info["sway"][i] > 0:
+					info["sway"][i] -= 1
+			
 			f.seek(0)
 			f.write(json.dumps(info))
+			f.truncate()
 	
 	with open(os.path.join("posts", str(post_id)), "r+") as f:
 		data = json.loads(f.read())
@@ -142,7 +215,7 @@ def unlike_post(username, post_id):
 		f.seek(0)
 		f.write(json.dumps(data))
 
-def has_user_liked_post(username, post_id):
+def has_user_liked_post(username, post_id : int):
 	with open(os.path.join("users", username)) as f:
 		info = json.loads(f.read())
 		if int(post_id) in info["liked"]:

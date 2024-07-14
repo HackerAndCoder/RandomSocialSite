@@ -138,3 +138,7 @@ function unlike(button, id) {
 		}
 	))
 }
+
+function accountsettings() {
+	window.location.href = window.location.origin + "/account.html";
+}

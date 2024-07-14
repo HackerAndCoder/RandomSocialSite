@@ -66,6 +66,10 @@ def return_content():
         post_handler.unlike_post(data["username"], int(data["id"]))
         return ""
 
+    else:
+        print(f"got unknown request: {data['request']}")
+        return ""
+
 @app.route('/handle_post', methods = ['POST'])
 def handle_signin():
     try:
@@ -84,7 +88,7 @@ def handle_signin():
     if not database.does_user_exist(username):
         database.set_user_and_password(username, password)
 
-        f = open(os.path.join("users", str(username)))
+        f = open(os.path.join("users", str(username)), 'w')
         f.close()
 
     database.save_to_disk()

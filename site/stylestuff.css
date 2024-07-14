@@ -74,8 +74,27 @@ body {
 .headerlinks {
 	float: right;
 	max-height: 100px;
+	display: flex;
+  	justify-content: space-between; /* Space between the items */
+  	align-items: center;
+	border: 3px dashed lightgray;
+	border-radius: 10px;
+	margin-top: 20px;
+}
+
+.headerlinks > h5, .headerlinks > button, .headerlinks > div {
+	margin-right: 10px;
+	padding: 7px;
 }
 
 .action {
 	margin-right: 10px;
+}
+
+#account {
+	padding: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	min-width: 50px;
+	min-height: 15px;
 }

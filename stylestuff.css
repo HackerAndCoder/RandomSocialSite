@@ -1,20 +1,74 @@
 .outlined {
-	border: 2px solid rgb(143, 143, 143);
-	border-radius: 20px;
-	min-height: 75px;
+	min-height: 100px;
 	min-width: 100px;
 	width: min-content;
 	margin: 50px;
-	padding: 100px;
-	text-align: center;
+	padding: 100px
 }
-.centerbutton{
-	text-align: center;
-	border-width: 1px;
+.frosted-glass::before {
+	content: 'body';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: inherit;  z-index: -1;
+	filter: blur(10px);
+  }
+.frosted-glass {
+	
+	position: relative;
+	overflow: hidden;
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	  
 	border-radius: 5px;
-	background-color: rgb(165, 165, 165);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 500px; /* Increased from 400px */
+  padding: 30px; border-radius: 10px; /* Increased border-radius for a softer look */
+	min-height: 350px; /* Increased from 300px */
+  }
+  .frosted-glass2 {
+	margin: 5px;  font-size: 18px;
+	padding: 12px;
+	margin: 10px 0;
+	width: 75%;
+	box-sizing: border-box;
+  
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border: 0cap;
+	border-radius: 5px;
+  }
+  .frosted-glass3 {
+	background-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border: 0cap;
+	border-radius: 5px;
+	position: absolute;
+	font-size: 18px;
+	padding: 12px 24px;
+	margin-top: 20px;
+	top: 80%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+  }
+  .container {
+	display: grid;
+	place-items: center;
+	
+  }
+.background{
+	background-image: url("background.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
 }
-
 body {
 	display: flex;
   	justify-content: center;
@@ -23,6 +77,7 @@ body {
 
 #error {
 	color: red;
+	justify-content: center;
 }
 
 #header {
@@ -80,4 +135,31 @@ body {
 
 .headerlinks {
 	float: right;
+	max-height: 100px;
+	display: flex;
+  	justify-content: space-between; /* Space between the items */
+  	align-items: center;
+	border: 3px dashed lightgray;
+	border-radius: 10px;
+	margin-top: 20px;
+}
+
+.headerlinks > h5, .headerlinks > button, .headerlinks > div {
+	margin-right: 10px;
+	padding: 7px;
+}
+
+.action {
+	margin-right: 10px;
+}
+
+#account {
+	padding: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	min-width: 50px;
+	min-height: 15px;
+}
+.like_num {
+    float: right;
 }

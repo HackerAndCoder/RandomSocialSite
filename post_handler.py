@@ -92,7 +92,7 @@ def get_post(id):
 			return json.loads(f.read())
 	except:
 		print(f'Error: no post: {id}')
-		return {"username": "null", "message": "null", "tags":[], "likes": 0}
+		return {"username": "null", "message": "null", "tags":[], "likes": 0, "days": 0}
 	
 def get_recommended_posts(username, load_length = 100):
 
@@ -114,8 +114,17 @@ def get_recommended_posts(username, load_length = 100):
 	time_interest_reduction = 1 # interest reduced per day
 
 	population = [random.randint(1, get_post_id_number()) for _ in range(load_length)]
-	with open(os.path.join("users", username)) as f:
-		userinfo = json.loads(f.read())
+	with open(os.path.join("users", username), 'r+') as f:
+		try:
+			userinfo = json.loads(f.read())
+		except:
+			userinfo = {"posts": [], "liked": [], "sway": {}}
+			for i in keywords.keys():
+				userinfo["sway"][i] = 0
+			
+			f.seek(0)
+			f.write(json.dumps(userinfo))
+			f.truncate()
 	
 	post_likeness = {}
 
@@ -125,7 +134,9 @@ def get_recommended_posts(username, load_length = 100):
 		for tag in get_post_tags(get_post(post)["message"]):
 			user_likeness += user_sway[tag]
 
-		user_likeness -= (current_day - get_post(post)["days"]) * time_interest_reduction
+		#print(get_post(post))
+
+		user_likeness -= (current_day - int(get_post(post)["days"])) * time_interest_reduction
 		post_likeness[post] = user_likeness
 	
 	sorted_items = sorted(post_likeness.items(), key=lambda item: item[1])
@@ -133,7 +144,7 @@ def get_recommended_posts(username, load_length = 100):
 	
 	return_stuff = []
 
-	for i in range(load_length // 10):
+	for i in range(load_length // 10 if len(sorted_items) > load_length//10 else len(sorted_items) -1):
 		return_stuff.append(sorted_items[i][0])
 	
 	print(f'User {username} likes {get_post(return_stuff[0])["tags"]}')
@@ -149,11 +160,20 @@ def get_recommended_posts(username, load_length = 100):
 
 def get_formatted_post(username, post_id):
 	post = get_post(post_id)
-	return get_plaintext_file("template.html").replace('{message}', post["message"]
+	'''return get_plaintext_file("template.html").replace('{message}', post["message"]
 															).replace("{username}", post["username"]
 					   										).replace('{id}', str(post_id)
 						   									).replace('{color_if_liked}', 'style="border-color: green;"' if has_user_liked_post(username, post_id) else ""
-															).replace('{user_liked}', "Unlike" if has_user_liked_post(username, post_id) else "Like")
+															).replace('{user_liked}', "Unlike" if has_user_liked_post(username, post_id) else "Like")'''
+	
+	return json.dumps({
+			"message": post["message"],
+			"username": post["username"],
+			"id": post_id,
+			"liked": has_user_liked_post(username, post_id),
+			"like_num": post["likes"]
+		}
+	)
 
 def get_tag_words(tag):
 	if tag.lower() in keywords.keys():

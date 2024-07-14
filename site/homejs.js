@@ -23,7 +23,13 @@ function postRequest(json_data) {
 				}
 				console.log(xhr.responseText);
 				content = xhr.responseText;
-				addContentToPage(JSON.parse(content));
+				
+				return_packet = JSON.parse(content);
+				posts = return_packet["content"];
+
+				addContentToPage(posts)
+
+				//console.log(posts);
 				
             } else 
             {
@@ -79,8 +85,30 @@ function setCookie(cname, cvalue, exdays) {
   
 
 function addContentToPage(content) {
-	for (var i = 0; i < content.content_length; i++) {
-		document.getElementById("content").innerHTML += content.content[i];
+	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button>{like_num} likes</div></div></div>"
+	for (var i = 0; i < content.length; i++) {
+		let c = JSON.parse(content[i]);
+
+		console.log("adding content: " + content[i]);
+		
+		let to_write = template;
+		if (c["liked"]) {
+			to_write = to_write.replace('{color_if_liked}', 'style="border-color: green;"');
+			to_write = to_write.replace('{user_liked}', "Unlike");
+		} else {
+			to_write = to_write.replace('{color_if_liked}', '');
+			to_write = to_write.replace("{user_liked}", "Like");
+		}
+
+		to_write = to_write.replace('{message}', c["message"]);
+		to_write = to_write.replace('{username}', c["username"]);
+		to_write = to_write.replace('{username}', c["username"]);
+		to_write = to_write.replace('{id}', c["id"]);
+		to_write = to_write.replace('{like_num}', c["like_num"]);
+
+		console.log(to_write);
+
+		document.getElementById("content").innerHTML += to_write;
 	}
 }
 
@@ -93,7 +121,7 @@ window.onscroll = function()
     if(totalHeight >= scrollHeight)
     {
         console.log("at the bottom");
-		getMoreContent()
+		getMoreContent();
     }
 }
 

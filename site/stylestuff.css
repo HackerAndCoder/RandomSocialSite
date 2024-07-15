@@ -135,7 +135,7 @@ body {
 	display: inline;
 }
 
-.messagecontents, .profname{
+.messagecontents, .profname {
 	font-family: 'Courier New', Courier, monospace;
 	color: white;
 }
@@ -174,3 +174,9 @@ body {
 	padding: 10px;
 }
 
+.linkbutton:hover {
+	font-weight: 800;
+	color: white;
+	font-family: 'Courier New', Courier, monospace;
+	padding: 10px;
+}

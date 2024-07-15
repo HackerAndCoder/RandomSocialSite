@@ -85,7 +85,7 @@ function setCookie(cname, cvalue, exdays) {
   
 
 function addContentToPage(content) {
-	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button><div class=\"like_num\">{like_num} likes</div></div></div></div>"
+	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button><div class=\"like_num\">{like_num} ❤️</div></div></div></div>"
 	for (var i = 0; i < content.length; i++) {
 		let c = JSON.parse(content[i]);
 

@@ -99,15 +99,16 @@ def get_recommended_posts(username, load_length = 100):
 
 	# THIS IS TEMPORARY CODE WHILE WE WAIT FOR NEW POSTS TO COME IN: DELETE ASAP WHEN DONE!!
 
+	
+	'''import temp_random_populator
+
+	for i in range(100):
+		new_post("bot", temp_random_populator.make_random_post())
+	
 	'''
-	import temp_random_populator
-
-	for i in range(load_length):
-		for k in keywords.keys():
-			new_post("a", temp_random_populator.make_random_post(k))
 
 
-	'''
+	
 
 	current_day = math.floor(round(time.time()) / 86400)
 

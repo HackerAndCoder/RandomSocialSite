@@ -103,7 +103,7 @@ function addContentToPage(content) {
 		console.log("adding content: " + content[i]);
 		
 		let to_write = template;
-		
+
 		if (c["liked"]) {
 			liked.push(c["id"]);
 			to_write = to_write.replace('{color_if_liked}', 'style="border-color: green;"');
@@ -159,6 +159,7 @@ function like(button, id) {
 		let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
 
 		t[1] = Number(t[1]) - 1;
+		t[0] = "💔"
 
 		button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
 
@@ -172,6 +173,8 @@ function like(button, id) {
 	let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
 
 	t[1] = Number(t[1]) + 1;
+
+	t[0] = "❤️"
 
 	button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
 

@@ -101,7 +101,13 @@ body {
 	border-right: 0px;
 }
 
-#spacer {
+.spacer {
+	width: 200%;
+	display: block;
+	min-height: 10px;
+}
+
+.spacerstart {
 	width: 200%;
 	display: block;
 	min-height: 100px;
@@ -119,8 +125,10 @@ body {
 	padding: 20px;
 	padding-top: 5px;
 	padding-bottom: 7px;
-	min-width: 300px;
-	border-radius: 15px;
+	min-width: 500px;
+	border-radius: 20px;
+
+	margin: 3px;
 	/*
 	display: flex;
   	justify-content: center;
@@ -152,6 +160,8 @@ body {
 
 .action {
 	margin-right: 10px;
+	background-color: rgb(46, 46, 46);
+	border: 0px;
 }
 
 #account {
@@ -164,7 +174,7 @@ body {
 
 .like_num {
     float: right;
-	color: white;
+	color: rgb(201, 200, 200);
 }
 
 .linkbutton {

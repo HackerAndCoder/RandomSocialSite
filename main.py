@@ -65,6 +65,9 @@ def return_content():
         print(f"User {data['username']} unliked post with id {data['id']}")
         post_handler.unlike_post(data["username"], int(data["id"]))
         return ""
+    
+    elif data["request"] == "template":
+        return get_plaintext_file("template.html")
 
     else:
         print(f"got unknown request: {data['request']}")

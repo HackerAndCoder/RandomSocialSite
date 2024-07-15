@@ -2,6 +2,16 @@ var cookies = document.cookie;
 
 var content = ""
 
+let liked = [];
+
+var template = "";
+
+postRequest(JSON.stringify(
+	{
+		"request": "template"
+	}
+))
+
 if (!cookies) {
 	console.log("redirect to log in / sign up")
 	window.location.assign("/signin.html")
@@ -20,6 +30,8 @@ function postRequest(json_data) {
             {
 				if (JSON.parse(json_data).request == "post") {
 					return;
+				} else if (JSON.parse(json_data).request == "template") {
+					template = xhr.responseText;
 				}
 				console.log(xhr.responseText);
 				content = xhr.responseText;
@@ -85,14 +97,15 @@ function setCookie(cname, cvalue, exdays) {
   
 
 function addContentToPage(content) {
-	template = "<div id=\"spacer\"></br></div><div class=\"post\" {color_if_liked}><div class=\"innerContent\"><h3 class=\"profname\"><img src=\"prof/{username}.png\" class=\"profpic\">{username}</h3> <h4 class=\"messagecontents\">{message}</h4><div width=\"100%\" style=\"max-height: 20px;\" class=\"actions\"><button class=\"action\" onclick=\"like(this, {id})\">{user_liked}</button><div class=\"like_num\">{like_num} ❤️</div></div></div></div>"
 	for (var i = 0; i < content.length; i++) {
 		let c = JSON.parse(content[i]);
 
 		console.log("adding content: " + content[i]);
 		
 		let to_write = template;
+		
 		if (c["liked"]) {
+			liked.push(c["id"]);
 			to_write = to_write.replace('{color_if_liked}', 'style="border-color: green;"');
 			to_write = to_write.replace('{user_liked}', "Unlike");
 		} else {
@@ -140,27 +153,30 @@ function mp() {
 }
 
 function like(button, id) {
-	if (button.innerHTML == "Unlike") {
+	if (liked.includes(id)) {
 		unlike(button, id);
 
 		let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
-	
-		t[0] = Number(t[0]) - 1;
+
+		t[1] = Number(t[1]) - 1;
 
 		button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
 
 		return;
 	}
 
+	if (!liked.includes(id)) {
+		liked.push(id);
+	}
 	
 	let t = button.parentNode.getElementsByClassName('like_num')[0].innerHTML.split(" ");
-	
-	t[0] = Number(t[0]) + 1;
+
+	t[1] = Number(t[1]) + 1;
 
 	button.parentNode.getElementsByClassName('like_num')[0].innerHTML = t.join(" ")
 
 	button.parentNode.parentNode.parentNode.style.borderColor = "green";
-	button.innerHTML = "Unlike";
+	//button.innerHTML = "Unlike";
 	postRequest(JSON.stringify(
 		{
 			"username": getCookie("username"),
@@ -172,7 +188,7 @@ function like(button, id) {
 
 function unlike(button, id) {
 	button.parentNode.parentNode.parentNode.style.border = "3px solid rgb(70, 70, 70)";
-	button.innerHTML = "Like";
+	//button.innerHTML = "Like";
 	postRequest(JSON.stringify(
 		{
 			"username": getCookie("username"),
@@ -180,8 +196,14 @@ function unlike(button, id) {
 			"id": id
 		}
 	))
+
+	remove(liked, id);
 }
 
 function accountsettings() {
-	//window.location.href = window.location.origin + "/account.html";
+	window.location.href = window.location.origin + "/account.html";
+}
+
+function remove(list, item) {
+	list = list.splice(list.indexOf(item), 1);
 }

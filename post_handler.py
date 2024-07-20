@@ -70,9 +70,15 @@ def new_post(username, post_text):
 		try:
 			c = json.loads(f.read())
 		except: # file is empty
-			c = {"posts": []}
+			c = {"posts": [], "taged": {}}
 		
 		c["posts"].append(get_post_id_number())
+		for tag in get_post_tags(post_text):
+			try:
+				c["tagged"][tag].append(get_post_id_number())
+			except:
+				c["tagged"][tag] = []
+				c["tagged"][tag].append(get_post_id_number())
 		f.seek(0)
 		f.write(json.dumps(c))
 		f.truncate()
@@ -113,6 +119,7 @@ def get_recommended_posts(username, load_length = 100):
 	current_day = math.floor(round(time.time()) / 86400)
 
 	time_interest_reduction = 1 # interest reduced per day
+	user_interest = 2
 
 	population = [random.randint(1, get_post_id_number()) for _ in range(load_length)]
 	with open(os.path.join("users", username), 'r+') as f:
@@ -134,6 +141,11 @@ def get_recommended_posts(username, load_length = 100):
 		user_likeness = 0
 		for tag in get_post_tags(get_post(post)["message"]):
 			user_likeness += user_sway[tag]
+		
+		try:
+			user_likeness += get_post(post)["username"] * user_interest
+		except: # the user has never interected with that accouts posts so do nothing
+			pass
 
 		#print(get_post(post))
 
@@ -161,11 +173,6 @@ def get_recommended_posts(username, load_length = 100):
 
 def get_formatted_post(username, post_id):
 	post = get_post(post_id)
-	'''return get_plaintext_file("template.html").replace('{message}', post["message"]
-															).replace("{username}", post["username"]
-					   										).replace('{id}', str(post_id)
-						   									).replace('{color_if_liked}', 'style="border-color: green;"' if has_user_liked_post(username, post_id) else ""
-															).replace('{user_liked}', "Unlike" if has_user_liked_post(username, post_id) else "Like")'''
 	
 	return json.dumps({
 			"message": post["message"],
@@ -205,6 +212,18 @@ def like_post(username, post_id):
 			for i in post_tags:
 				info["sway"][i] += 1
 			
+			try:
+				_ = info["sway"]["users"]
+			except:
+				info["sway"]["users"] = {}
+			
+			try:
+				_ = info["sway"]["users"][username]
+			except:
+				info["sway"]["users"][username] = 0
+
+			info["sway"]["users"][username] += 1
+			
 			f.seek(0)
 			f.write(json.dumps(info))
 	
@@ -225,6 +244,18 @@ def unlike_post(username, post_id):
 			for i in post_tags:
 				if info["sway"][i] > 0:
 					info["sway"][i] -= 1
+			
+			try:
+				_ = info["sway"]["users"]
+			except:
+				info["sway"]["users"] = {}
+			
+			try:
+				_ = info["sway"]["users"][username]
+			except:
+				info["sway"]["users"][username] = 0
+
+			info["sway"]["users"][username] -= 1
 			
 			f.seek(0)
 			f.write(json.dumps(info))

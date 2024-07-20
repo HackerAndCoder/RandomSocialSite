@@ -82,11 +82,11 @@ def handle_signin():
         
         print(f"login or sign up : {username}:{password}")
     except:
-        return '{"completed":"Something went wrong, please try again","go":false,"hashed":"'+str(password)+'"}'
+        return '{"completed":"Something went wrong, please try again","go":false,"new":false,"hashed":"'+str(password)+'"}'
     
     if database.does_user_exist(username):
         if not database.is_right_password(username, str(password)):
-            return '{"completed":"Password is incorrect","go":false,"hashed":"'+str(password)+'"}'
+            return '{"completed":"Password is incorrect","go":false,"new":false,"hashed":"'+str(password)+'"}'
 
     if not database.does_user_exist(username):
         database.set_user_and_password(username, password)
@@ -95,13 +95,15 @@ def handle_signin():
         f.close()
 
     database.save_to_disk()
-    return '{"completed":"Redirecting...", "go":true,"hashed":"'+str(password)+'"}'
+    return '{"completed":"Redirecting...", "go":true,"new":true,"hashed":"'+str(password)+'"}'
 
 @app.route('/<a>')
 def hello_world(a):
     if get_extention(a) in ('png', 'jpg', 'jpeg', ''):
-        print(f'bin path {a} extention {get_extention(a)}')
-        return get_binary_file(a)
+        try:
+            return get_binary_file(a)
+        except:
+            return get_binary_file(os.path.join('prof', 'null.png'))
     try:
         return Response(get_plaintext_file(a), 
                         mimetype=f'text/{get_extention(a) if get_extention(a) != "js" else "javascript"}')

@@ -31,7 +31,11 @@ function checkInput() {
 			if (data.go) {
 				setCookie("username", username);
 				setCookie("password", data.hashed);
-				window.location.href = window.location.origin;
+				let mod = "";
+				if (data.new) {
+					mod = "/newaccountcreated.html";
+				}
+				window.location.href = window.location.origin + mod;
 			}
 	
 			// we get the returned data

@@ -24,7 +24,7 @@
 	background-color: rgba(255, 255, 255, 0.15);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	  
-	border-radius: 5px;
+	border-radius: 15px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -44,7 +44,7 @@
 	background-color: rgba(255, 255, 255, 0.15);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	border: 0cap;
-	border-radius: 5px;
+	border-radius: 10px;
   }
   .frosted-glass3 {
 	background-color: rgba(255, 255, 255, 0.15);
@@ -168,8 +168,8 @@ body {
 	padding: 0px;
 	padding-left: 5px;
 	padding-right: 5px;
-	min-width: 50px;
-	min-height: 15px;
+	min-width: 100px;
+	text-align: center;
 }
 
 .like_num {
@@ -181,12 +181,124 @@ body {
 	text-decoration: none;
 	color: white;
 	font-family: 'Courier New', Courier, monospace;
-	padding: 10px;
 }
+
 
 .linkbutton:hover {
 	font-weight: 800;
-	color: white;
+}
+
+.maincontainer {
+	min-width: 400px;
+	min-height: 400px;
+	max-width: 500px;
 	font-family: 'Courier New', Courier, monospace;
-	padding: 10px;
+	color: rgb(194, 192, 192);
+}
+
+.nametitle {
+	font-family: 'Courier New', Courier, monospace;
+	color: rgb(194, 192, 192);
+}
+
+.infotext {
+	font-weight: lighter;
+}
+
+.footermenu {
+	position: absolute;
+	bottom: 0;
+	color: rgb(194, 192, 192);
+}
+
+.footermenu > button {
+	margin-bottom: 20px;
+	min-width: 100px;
+	min-height: 40px;
+	background: none;
+	border-radius: 10px;
+	color: rgb(194, 192, 192);
+	font-weight: bold;
+	border: none;
+	transition: background-color 0.6s;
+	transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.footermenu > button:hover {
+	background-color: black;
+}
+
+#profpic {
+	max-width: 100px;
+	max-height: 50px;
+	padding-top: 5px;
+}
+
+body.account-settings-body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+div.account-settings-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1.account-settings-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form.account-settings-form {
+    display: flex;
+    flex-direction: column;
+}
+
+form.account-settings-form label.account-settings-label {
+    margin-bottom: 5px;
+}
+
+form.account-settings-form input.account-settings-input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form.account-settings-form button.account-settings-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+}
+
+form.account-settings-form button.account-settings-button:hover {
+    background-color: #0056b3;
+}
+
+.sign-out-button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #FF4B5C;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+
+.sign-out-button:hover {
+    background-color: #d13d49;
 }

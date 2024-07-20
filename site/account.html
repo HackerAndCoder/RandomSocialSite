@@ -1,11 +1,40 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<link rel="stylesheet" href="stylestuff.css">
-		<title>Account Configuration</title>
-	</head>
-	<body>
-		<h1>Page under development. Come back later</h1>
-		<a href="/">back</a>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="account-settings-body">
+    <div class="account-settings-container">
+        <h1 class="account-settings-title">Account Settings</h1>
+        <form action="/update_account" method="post" class="account-settings-form">
+            <label for="username" class="account-settings-label">Username:</label>
+            <input type="text" id="username" name="username" value="CurrentUsername" class="account-settings-input" required>
+
+            <label for="email" class="account-settings-label">Email:</label>
+            <input type="email" id="email" name="email" value="currentemail@example.com" class="account-settings-input" required>
+
+            <label for="password" class="account-settings-label">New Password:</label>
+            <input type="password" id="password" name="password" class="account-settings-input">
+
+            <label for="confirm_password" class="account-settings-label">Confirm New Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="account-settings-input">
+
+            <button type="submit" class="account-settings-button">Save Changes</button>
+        </form>
+        <button class="sign-out-button" onclick="signOut()">Sign Out</button>
+    </div>
+
+    <script>
+        function signOut() {
+            // Clear the cookies by setting them with a past expiration date
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // Redirect to the home page or login page
+            window.location.href = "/login";
+        }
+    </script>
+</body>
 </html>

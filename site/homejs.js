@@ -145,7 +145,7 @@ function signout() {
 	window.location.reload();
 }
 
-document.getElementById("username").innerHTML = getCookie("username")
+document.getElementById("profpic").src = getCookie("username") + ".png";
 
 function mp() {
 	let message = prompt("What do you want to post?", "");

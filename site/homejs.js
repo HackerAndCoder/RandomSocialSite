@@ -24,14 +24,13 @@ function postRequest(json_data) {
         xhr.open("POST", window.location.href);
         xhr.setRequestHeader("Content-Type", "application/json");
         const body = json_data;
-        xhr.onload = () => 
+        xhr.onload = () =>
         {
-            if (xhr.readyState == 4 && xhr.status == 201 || xhr.status == 200) 
-            {
-				if (JSON.parse(json_data).request == "post") {
-					return;
-				} else if (JSON.parse(json_data).request == "template") {
-					template = xhr.responseText;
+          if (xhr.readyState == 4 && xhr.status == 201 || xhr.status == 200) {
+            if (JSON.parse(json_data).request == "post") {
+              return;
+            } else if (JSON.parse(json_data).request == "template") {
+              template = xhr.responseText;
 				}
 				console.log(xhr.responseText);
 				content = xhr.responseText;
@@ -133,8 +132,8 @@ window.onscroll = function()
 
     if(totalHeight >= scrollHeight)
     {
-        console.log("at the bottom");
-		getMoreContent();
+      console.log("at the bottom");
+      getMoreContent();
     }
 }
 

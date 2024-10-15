@@ -68,10 +68,14 @@ def return_content():
     
     elif data["request"] == "template":
         return get_plaintext_file("template.html")
+    
+    elif data["request"] == "topics":
+        return json.dumps({"topics": post_handler.keywords.keys()})
 
     else:
         print(f"got unknown request: {data['request']}")
         return ""
+    
 
 @app.route('/handle_post', methods = ['POST'])
 def handle_signin():
@@ -115,4 +119,4 @@ def prof_return(a):
     return hello_world(os.path.join('prof', a))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port = 5005)

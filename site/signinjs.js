@@ -15,7 +15,7 @@ function checkInput() {
 	xhr.open("POST", "/handle_post", true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
-    	"username": username,
+    "username": username,
 		"password": password
 	}));
 

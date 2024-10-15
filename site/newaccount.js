@@ -19,8 +19,41 @@ function getCookie(cname) {
 	  }
 	}
 	return "";
+}
+
+function fillTopicContainer() {
+  var topics = [];
+  var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/", true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.send(
+	 JSON.stringify
+	  (
+		 {
+      "request": "topics"
+		 }
+		)
+	);
+	
+  xhr.onload = () => {
+    if (xhr.readyState == 4 && xhr.status == 201 || xhr.status == 200) {
+      topics = JSON.parse(xhr.responseText).topics;
+    }
   }
 
+  for (var i = 0; i < topics.length; i++) {
+    var t = document.createElement("div");
+    t.class = "topic";
+    t.innerText = topics[i];
+    document.getElementById("topicscontainer").appendChild(t);
+  }
+}
+
+function goBackToSignin() {
+  window.location.href = "/signin.html";
+}
+  
 let welcometext = document.getElementById("welcometext");
 welcometext.innerHTML = welcometext.innerHTML.replace('{username}', getCookie("username"));
 
+fillTopicContainer();

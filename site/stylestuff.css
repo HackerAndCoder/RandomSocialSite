@@ -302,3 +302,8 @@ form.account-settings-form button.account-settings-button:hover {
 .sign-out-button:hover {
     background-color: #d13d49;
 }
+
+.topic {
+    border: 5x solid black;
+    border-radius: 5px;
+}
